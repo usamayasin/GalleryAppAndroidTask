@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.avrioctask.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/home_fragment">
+        <action
+            android:id="@+id/toAlbumDetailFragment"
+            app:destination="@id/albumDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/albumDetailFragment"
+        android:name="com.example.avrioctask.ui.detail.DetailFragment"
+        android:label="fragment_album_detail"
+        tools:layout="@layout/detail_fragment" />
+
+</navigation>
