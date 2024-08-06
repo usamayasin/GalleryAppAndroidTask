@@ -9,7 +9,9 @@ import android.widget.MediaController
 import androidx.fragment.app.Fragment
 import com.example.avrioctask.databinding.ItemVideoBinding
 import com.example.avrioctask.utils.Constants.ARG_URI
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class VideoFragment: Fragment() {
     private lateinit var binding: ItemVideoBinding
 

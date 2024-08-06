@@ -82,15 +82,18 @@ class DetailFragment : Fragment() {
         val uiStateObserver = Observer<UIState> { uiState ->
             when (uiState) {
                 is LoadingState -> {
+                    binding.errorMessage.gone()
                     binding.progressbar.visible()
                 }
 
                 is ContentState -> {
+                    binding.errorMessage.gone()
                     binding.progressbar.gone()
                 }
 
                 is ErrorState -> {
-                    Toast.makeText(requireContext(),"Error: ${uiState.message}", Toast.LENGTH_LONG)
+                    binding.errorMessage.text = uiState.message
+                    binding.errorMessage.visible()
                     binding.progressbar.gone()
                 }
             }
