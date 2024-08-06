@@ -20,7 +20,7 @@ class MediaRepositoryImpl(
 ) : MediaRepository {
 
     var albumCache = listOf<Album>()
-    override fun getAllAlbums(): Flow<DataState<List<Album>>> = flow {
+    override suspend fun getAllAlbums(): Flow<DataState<List<Album>>> = flow {
         try {
             val cachedAlbums = albumCache.toList()
             if (cachedAlbums.isNotEmpty()) {
@@ -41,7 +41,7 @@ class MediaRepositoryImpl(
         emit(DataState.Error(DataState.CustomMessages.SomethingWentWrong("")))
     }
 
-    override fun getMediaItems(albumId: String): Flow<DataState<List<MediaItem>>> = flow {
+    override suspend fun getMediaItems(albumId: String): Flow<DataState<List<MediaItem>>> = flow {
         try {
             val foundAlbum = albumCache.find { it.name == albumId }
             foundAlbum?.let {

@@ -16,7 +16,8 @@
     <dimen name="radius_1x">10dp</dimen>
     <dimen name="elevation_0x">5dp</dimen>
     <dimen name="elevation_1x">8dp</dimen>
-    <dimen name="height_0x">25dp</dimen>
+    <dimen name="height_1x">50dp</dimen>
+    <dimen name="width_1x">50dp</dimen>
 
 
 </resources>

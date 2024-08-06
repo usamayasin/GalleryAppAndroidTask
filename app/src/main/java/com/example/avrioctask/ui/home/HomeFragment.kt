@@ -10,6 +10,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -17,14 +18,21 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.avrioctask.R
 import com.example.avrioctask.adapters.AlbumsAdapter
+import com.example.avrioctask.data.model.ContentState
+import com.example.avrioctask.data.model.ErrorState
+import com.example.avrioctask.data.model.LoadingState
+import com.example.avrioctask.data.model.UIState
 import com.example.avrioctask.databinding.HomeFragmentBinding
 import com.example.avrioctask.ui.MainViewModel
 import com.example.avrioctask.utils.Constants
+import com.example.avrioctask.utils.gone
+import com.example.avrioctask.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -75,6 +83,24 @@ class HomeFragment : Fragment() {
                 albumsAdapter.differ.submitList(response)
             }
         }
+
+        val uiStateObserver = Observer<UIState> { uiState ->
+            when (uiState) {
+                is LoadingState -> {
+                    binding.progressbar.visible()
+                }
+
+                is ContentState -> {
+                    binding.progressbar.gone()
+                }
+
+                is ErrorState -> {
+                    binding.progressbar.gone()
+                    Toast.makeText(requireContext(),"Error: ${uiState.message}",Toast.LENGTH_LONG)
+                }
+            }
+        }
+        viewModel.uiStateLiveData.observe(viewLifecycleOwner, uiStateObserver)
     }
 
     override fun onResume() {
