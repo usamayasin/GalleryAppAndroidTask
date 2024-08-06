@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.avrioctask.R
 import com.example.avrioctask.adapters.MediaAdapter
 import com.example.avrioctask.databinding.DetailFragmentBinding
 import com.example.avrioctask.utils.Constants
@@ -54,11 +57,19 @@ class DetailFragment : Fragment() {
 
 
     private fun onImageClick(uri: Uri) {
-
-
+        val bundle = bundleOf(Constants.ARG_URI to uri.toString())
+        findNavController().navigate(
+            R.id.toImageFragment,
+            bundle
+        )
     }
 
     private fun onVideoClick(uri: Uri) {
+        val bundle = bundleOf(Constants.ARG_URI to uri.toString())
+        findNavController().navigate(
+            R.id.toVideoFragment,
+            bundle
+        )
     }
 
 

@@ -19,6 +19,29 @@
         android:id="@+id/albumDetailFragment"
         android:name="com.example.avrioctask.ui.detail.DetailFragment"
         android:label="fragment_album_detail"
-        tools:layout="@layout/detail_fragment" />
+        tools:layout="@layout/detail_fragment">
+
+        <action
+            android:id="@+id/toVideoFragment"
+            app:destination="@id/videoFragment" />
+
+        <action
+            android:id="@+id/toImageFragment"
+            app:destination="@id/imageFragment" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/videoFragment"
+        android:name="com.example.avrioctask.ui.detail.video.VideoFragment"
+        android:label="fragment_video"
+        tools:layout="@layout/item_video" />
+
+    <fragment
+        android:id="@+id/imageFragment"
+        android:name="com.example.avrioctask.ui.detail.image.ImageFragment"
+        android:label="fragment_image"
+        tools:layout="@layout/item_image" />
 
 </navigation>
