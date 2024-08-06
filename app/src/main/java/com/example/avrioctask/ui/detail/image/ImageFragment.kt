@@ -10,7 +10,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.avrioctask.databinding.ItemImageBinding
 import com.example.avrioctask.utils.Constants.ARG_URI
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ImageFragment : Fragment() {
     private lateinit var binding: ItemImageBinding
 

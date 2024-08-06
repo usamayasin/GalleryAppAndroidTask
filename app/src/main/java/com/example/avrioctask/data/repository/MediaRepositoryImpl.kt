@@ -31,14 +31,14 @@ class MediaRepositoryImpl(
                     albumCache = freshAlbumsData
                     emit(DataState.Success(freshAlbumsData))
                 } else {
-                    emit(DataState.Error(DataState.CustomMessages.SomethingWentWrong("")))
+                    emit(DataState.Error(DataState.CustomMessages.EmptyData()))
                 }
             }
         } catch (e: Exception) {
-            emit(DataState.Error(DataState.CustomMessages.SomethingWentWrong("")))
+            emit(DataState.Error(DataState.CustomMessages.SomethingWentWrong(e.message.toString())))
         }
     }.catch {
-        emit(DataState.Error(DataState.CustomMessages.SomethingWentWrong("")))
+        emit(DataState.Error(DataState.CustomMessages.SomethingWentWrong(it.message.toString())))
     }
 
     override suspend fun getMediaItems(albumId: String): Flow<DataState<List<MediaItem>>> = flow {
@@ -47,10 +47,10 @@ class MediaRepositoryImpl(
             foundAlbum?.let {
                 emit(DataState.Success(foundAlbum.mediaItems))
             } ?: run {
-                emit(DataState.Error(DataState.CustomMessages.EmptyData))
+                emit(DataState.Error(DataState.CustomMessages.EmptyData()))
             }
         } catch (e: Exception) {
-            emit(DataState.Error(DataState.CustomMessages.EmptyData))
+            emit(DataState.Error(DataState.CustomMessages.SomethingWentWrong(e.message.toString())))
         }
     }
 
@@ -124,21 +124,24 @@ class MediaRepositoryImpl(
                 }
             }
 
-            albums.add(
-                Album(
-                    name = Constants.ALL_IMAGES_ALBUM_ID,
-                    mediaItems = allImages,
-                    mediaCount = allImages.size
+            if(allImages.isNotEmpty()) {
+                albums.add(
+                    Album(
+                        name = Constants.ALL_IMAGES_ALBUM_ID,
+                        mediaItems = allImages,
+                        mediaCount = allImages.size
+                    )
                 )
-            )
-            albums.add(
-                Album(
-                    name = Constants.ALL_VIDEOS_ALBUM_ID,
-                    mediaItems = allVideos,
-                    mediaCount = allVideos.size
+            }
+            if(allVideos.isNotEmpty()) {
+                albums.add(
+                    Album(
+                        name = Constants.ALL_VIDEOS_ALBUM_ID,
+                        mediaItems = allVideos,
+                        mediaCount = allVideos.size
+                    )
                 )
-            )
-
+            }
             albums
         })
     }.catch { throwable ->

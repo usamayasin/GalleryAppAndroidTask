@@ -12,8 +12,8 @@ sealed class DataState<T>(
 ) {
     class Success<T>(data: T?) : DataState<T>(data)
     class Error<T>(customMessages: CustomMessages) : DataState<T>(error = customMessages)
-    sealed class CustomMessages(val message: String = "") {
-        object EmptyData : CustomMessages()
+    sealed class CustomMessages(open val message: String = "") {
+        class EmptyData(override val message: String = "No Data Found") : CustomMessages(message)
         data class SomethingWentWrong(val error: String) : CustomMessages(message = error)
     }
 }

@@ -2,7 +2,7 @@
 An simple Gallery to showcase images and videos available on the device
 
 <div align="center">
-  <sub>Built with ❤︎ by
+  <sub>Built with ❤︎ by</sub>
   <a>Muhammad Usama Yasin</a>
 </div>
 <br/>
