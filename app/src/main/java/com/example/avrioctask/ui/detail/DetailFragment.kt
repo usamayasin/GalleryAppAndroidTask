@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.avrioctask.R
 import com.example.avrioctask.adapters.MediaAdapter
 import com.example.avrioctask.databinding.DetailFragmentBinding
+import com.example.avrioctask.ui.MainViewModel
 import com.example.avrioctask.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,6 +23,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class DetailFragment : Fragment() {
 
     private val viewModel: DetailsViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
+
     private lateinit var binding: DetailFragmentBinding
     private lateinit var mediaAdapter: MediaAdapter
     private var albumName: String? = null
@@ -41,12 +46,24 @@ class DetailFragment : Fragment() {
         this.albumName?.let {
             viewModel.fetchMediaItems(it)
         }
-
         mediaAdapter = MediaAdapter(
             onImageClick = ::onImageClick,
             onVideoClick = ::onVideoClick
         )
         binding.mediaItemsRv.adapter = mediaAdapter
+
+        initObservers()
+
+    }
+
+    private fun initObservers() {
+        mainViewModel.isGridLayoutManager.observe(viewLifecycleOwner) { isGridLayout ->
+            if (isGridLayout) {
+                binding.mediaItemsRv.layoutManager = GridLayoutManager(requireContext(), 2)
+            } else {
+                binding.mediaItemsRv.layoutManager = LinearLayoutManager(requireContext())
+            }
+        }
 
         viewModel.mediaLiveData.observe(viewLifecycleOwner) { response ->
             response?.let {

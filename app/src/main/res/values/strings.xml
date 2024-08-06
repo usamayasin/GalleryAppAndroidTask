@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AvriocTask</string>
+    <string name="switch_layout">Switch Layout</string>
 </resources>
