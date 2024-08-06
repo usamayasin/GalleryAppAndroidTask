@@ -58,6 +58,12 @@ An simple Gallery to showcase images and videos available on the device
 - Right-click on a test class and select "Run with Coverage".
 - This will open a coverage report in the Android Studio window.
 
+## Screenshots
+<img width="418" alt="Screenshot 2024-08-06 at 8 32 44 PM" src="https://github.com/user-attachments/assets/f6ba8710-6c9e-4df4-b1fc-f99ea21b0919">
+<img width="418" alt="Screenshot 2024-08-06 at 8 32 32 PM" src="https://github.com/user-attachments/assets/a3431625-eaf9-43e0-8673-c1fdf956d264">
+<img width="418" alt="Screenshot 2024-08-06 at 8 32 24 PM" src="https://github.com/user-attachments/assets/74352236-2a27-45fd-8514-18d296e74df7">
+<img width="418" alt="Screenshot 2024-08-06 at 8 32 13 PM" src="https://github.com/user-attachments/assets/b59feb40-ad5e-4666-8d62-296e2dbbdf51">
+
 
 ## 👨 Developed By
 **Muhammad Usama Yasin**
