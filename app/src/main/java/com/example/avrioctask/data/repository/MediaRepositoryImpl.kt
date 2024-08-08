@@ -95,36 +95,44 @@ class MediaRepositoryImpl(
                     cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MEDIA_TYPE)
 
                 while (cursor.moveToNext()) {
-                    val id = cursor.getLong(idColumn)
-                    val name = cursor.getString(nameColumn)
-                    val bucket = cursor.getString(bucketColumn)
-                    val type = cursor.getInt(typeColumn)
+                    try {
+                        val id = cursor.getLong(idColumn)
+                        val name = cursor.getString(nameColumn) ?: ""
+                        val bucket = cursor.getString(bucketColumn) ?: ""
+                        val type = cursor.getInt(typeColumn)
 
-                    val mediaItem = MediaItem(
-                        id = id,
-                        uri = Uri.withAppendedPath(
-                            MediaStore.Files.getContentUri("external"),
-                            "" + id
-                        ),
-                        name = name,
-                        type = if (type == 1) MediaType.IMAGE else MediaType.VIDEO
-                    )
+                        // if unable to find name/bucket skip this iteration
+                        if (name.isEmpty() || bucket.isEmpty()) continue
 
-                    val album = albums.find { it.name == bucket } ?: Album(name = bucket).also {
-                        albums.add(it)
-                    }
-                    album.mediaItems.add(mediaItem)
-                    album.mediaCount++
+                        val mediaItem = MediaItem(
+                            id = id,
+                            uri = Uri.withAppendedPath(
+                                MediaStore.Files.getContentUri("external"),
+                                "" + id
+                            ),
+                            name = name,
+                            type = if (type == 1) MediaType.IMAGE else MediaType.VIDEO
+                        )
 
-                    if (type == MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE) {
-                        allImages.add(mediaItem)
-                    } else if (type == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO) {
-                        allVideos.add(mediaItem)
+                        val album = albums.find { it.name == bucket } ?: Album(name = bucket).also {
+                            albums.add(it)
+                        }
+                        album.mediaItems.add(mediaItem)
+                        album.mediaCount++
+
+                        if (type == MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE) {
+                            allImages.add(mediaItem)
+                        } else if (type == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO) {
+                            allVideos.add(mediaItem)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        continue
                     }
                 }
             }
 
-            if(allImages.isNotEmpty()) {
+            if (allImages.isNotEmpty()) {
                 albums.add(
                     Album(
                         name = Constants.ALL_IMAGES_ALBUM_ID,
@@ -133,7 +141,7 @@ class MediaRepositoryImpl(
                     )
                 )
             }
-            if(allVideos.isNotEmpty()) {
+            if (allVideos.isNotEmpty()) {
                 albums.add(
                     Album(
                         name = Constants.ALL_VIDEOS_ALBUM_ID,
